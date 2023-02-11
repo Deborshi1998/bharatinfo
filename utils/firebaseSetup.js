@@ -6,12 +6,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAsU1hrDHx5y-218jTOhmIDENtkm0C133E",
+  apiKey: process.env.APP_APIKEY,
   authDomain: "bharat-info.firebaseapp.com",
   projectId: "bharat-info",
   storageBucket: "bharat-info.appspot.com",
-  messagingSenderId: "904566211268",
-  appId: "1:904566211268:web:b29bab1cbef9aa23447f91",
+  messagingSenderId: process.env.APP_MESSAGINGSENDERID,
+  appId: process.env.APP_APPID,
 };
 
 // Initialize Firebase

@@ -16,7 +16,6 @@ export const fetchMenu = createAsyncThunk(
   "menu/fetchMenu",
   async (item) => {
     const { collection, document } = item;
-    console.log("inside fetchMenu", collection, document)
     const docRef = doc(db, collection, document);
     const response = await getDoc(docRef);
     if (!response.exists()) {

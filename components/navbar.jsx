@@ -101,6 +101,7 @@ function NavbarComponent() {
                     <MenuList>
                       {HealthMenu.map((item) => (
                         <MenuItem
+                          key={"side" + item.value}
                           onClick={() => {
                             dispatch(
                               fetchMenu({
@@ -127,6 +128,7 @@ function NavbarComponent() {
                     <MenuList>
                       {EconomicMenu.map((item) => (
                         <MenuItem
+                          key={"side" + item.value}
                           onClick={() =>
                             dispatch(
                               fetchMenu({
@@ -160,6 +162,7 @@ function NavbarComponent() {
               <MenuList>
                 {HealthMenu.map((item) => (
                   <MenuItem
+                    key={"main" + item.value}
                     onClick={() => {
                       dispatch(
                         fetchMenu({
@@ -186,6 +189,7 @@ function NavbarComponent() {
               <MenuList>
                 {EconomicMenu.map((item) => (
                   <MenuItem
+                    key={"main" + item.value}
                     onClick={() =>
                       dispatch(
                         fetchMenu({

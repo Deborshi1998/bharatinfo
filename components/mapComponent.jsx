@@ -24,7 +24,8 @@ function IndiaMap({ setTooltipContent }) {
   const [max, setmax] = useState(0); // max value of the data
   const [min, setmin] = useState(0); // min value of the data
   const [isLoading, setLoading] = useState(mapData.status); // loading, success, error
-  const sortedMapDataArray = useMemo(() => { // useMemo hook to avoid unnecessary re-rendering
+  const sortedMapDataArray = useMemo(() => {
+    // useMemo hook to avoid unnecessary re-rendering
     const sortedArray = mapData.data.map((d) => d.value).sort((a, b) => a - b);
 
     const sortedCleanArray = sortedArray.filter((item) => item !== "NA");
@@ -50,7 +51,7 @@ function IndiaMap({ setTooltipContent }) {
   const DEFAULT_COLOR = "#000000";
 
   // all state's style
-  const geographyStyle = { 
+  const geographyStyle = {
     default: {
       outline: "none",
     },
@@ -142,7 +143,6 @@ function IndiaMap({ setTooltipContent }) {
           >
             India icons created by Freepik - Flaticon
           </a>
-          
         </>
       )}
     </Box>
