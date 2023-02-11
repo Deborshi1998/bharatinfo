@@ -1,4 +1,4 @@
-import React, { useState, memo, useMemo } from "react";
+import React, { useState, memo, useMemo, useEffect } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -19,10 +19,11 @@ import PacmanLoader from "react-spinners/PacmanLoader";
  * Here it is saved as indiaMap.json
  */
 
-function IndiaMap({ setTooltipContent }) {
+function IndiaMap({ setTooltipContent, isMobile }) {
   const mapData = useSelector((state) => state.menu);
   const [max, setmax] = useState(0); // max value of the data
   const [min, setmin] = useState(0); // min value of the data
+
   const [isLoading, setLoading] = useState(mapData.status); // loading, success, error
   const sortedMapDataArray = useMemo(() => {
     // useMemo hook to avoid unnecessary re-rendering
@@ -45,8 +46,8 @@ function IndiaMap({ setTooltipContent }) {
       ? ["green", "yellow", "red"]
       : ["red", "yellow", "green"];
   const PROJECTION_CONFIG = {
-    scale: 500,
-    center: [77.9629, 20.5937], // always in [East Latitude, North Longitude]
+    scale: !isMobile ? 500 : 900,
+    center: !isMobile ? [77.9629, 20.5937] : [80.9629, 20.5937], // always in [East Latitude, North Longitude]
   };
   const DEFAULT_COLOR = "#000000";
 
@@ -86,45 +87,45 @@ function IndiaMap({ setTooltipContent }) {
             projectionConfig={PROJECTION_CONFIG}
             projection="geoMercator"
             width={600}
-            height={300}
+            height={!isMobile ? 300 : 600}
             data-tip=""
           >
-            <ZoomableGroup zoom={1}>
-              <Geographies geography={INDIA_TOPO_JSON}>
-                {({ geographies }) =>
-                  geographies.map((geo) => {
-                    const current = mapData.data.find((s) => s.id === geo.id);
-                    const currentValue = current ? current.value : "NA";
-                    const normalValue =
-                      currentValue === "NA"
-                        ? 0
-                        : ((currentValue - min) / (max - min)) * 100;
-                    return (
-                      <Geography
-                        id={geo.properties.name}
-                        key={geo.rsmKey}
-                        geography={geo}
-                        stroke="#000"
-                        style={geographyStyle}
-                        fill={
-                          currentValue !== "NA"
-                            ? colorScale(normalValue)
-                            : DEFAULT_COLOR
-                        }
-                        onMouseEnter={() => {
-                          setTooltipContent(
-                            `${geo.properties.name} : ${currentValue}`
-                          );
-                        }}
-                        onMouseLeave={() => {
-                          setTooltipContent("");
-                        }}
-                      />
-                    );
-                  })
-                }
-              </Geographies>
-            </ZoomableGroup>
+            {/* <ZoomableGroup zoom={1}> */}
+            <Geographies geography={INDIA_TOPO_JSON}>
+              {({ geographies }) =>
+                geographies.map((geo) => {
+                  const current = mapData.data.find((s) => s.id === geo.id);
+                  const currentValue = current ? current.value : "NA";
+                  const normalValue =
+                    currentValue === "NA"
+                      ? 0
+                      : ((currentValue - min) / (max - min)) * 100;
+                  return (
+                    <Geography
+                      id={geo.properties.name}
+                      key={geo.rsmKey}
+                      geography={geo}
+                      stroke="#000"
+                      style={geographyStyle}
+                      fill={
+                        currentValue !== "NA"
+                          ? colorScale(normalValue)
+                          : DEFAULT_COLOR
+                      }
+                      onMouseEnter={() => {
+                        setTooltipContent(
+                          `${geo.properties.name} : ${currentValue}`
+                        );
+                      }}
+                      onMouseLeave={() => {
+                        setTooltipContent("");
+                      }}
+                    />
+                  );
+                })
+              }
+            </Geographies>
+            {/* </ZoomableGroup> */}
           </ComposableMap>
           <LinearGradient />
           <div>
